@@ -1,62 +1,31 @@
-###################
-What is CodeIgniter
-###################
-
-CodeIgniter is an Application Development Framework - a toolkit - for people
-who build web sites using PHP. Its goal is to enable you to develop projects
-much faster than you could if you were writing code from scratch, by providing
-a rich set of libraries for commonly needed tasks, as well as a simple
-interface and logical structure to access these libraries. CodeIgniter lets
-you creatively focus on your project by minimizing the amount of code needed
-for a given task.
-
-*******************
-Release Information
-*******************
-
-This repo contains in-development code for future releases. To download the
-latest stable release please visit the `CodeIgniter Downloads
-<http://codeigniter.com/downloads/>`_ page.
-
-**************************
-Changelog and New Features
-**************************
-
-You can find a list of all changes for each release in the `user
-guide change log <https://github.com/EllisLab/CodeIgniter/blob/develop/user_guide_src/source/changelog.rst>`_.
-
-*******************
-Server Requirements
-*******************
-
--  PHP version 5.2.4 or newer.
+#############
+Wishlist API
+#############
 
 ************
 Installation
-************
+************ 
 
-Please see the `installation section <http://ellislab.com/codeigniter/user-guide/installation/index.html>`_
-of the CodeIgniter User Guide.
+1- Extract attached file to your www directory 
+2- if the DB is not already installed apply this script (https://www.dropbox.com/s/vyfg3zv1e5nky4p/wishlist.sql?dl=0)
+3- Update DB to version 2.0 by applying the script `v2_updates.sql` found under `wishlist/db_updates`.
 
 *******
-License
+Format
 *******
 
-Please see the `license
-agreement <http://ellislab.com/codeigniter/user-guide/license.html>`_
+JSON is the default format for API responses, however, you can change this by setting the `Accept` header in the http request to be xml or plain text, or you can even change the default format by changing the following line in config/rest.php:
 
-*********
-Resources
-*********
+$config['rest_default_format'] = 'json';
 
--  `User Guide <http://ellislab.com/codeigniter/user_guide/>`_
--  `Community Forums <http://ellislab.com/forums/>`_
--  `Community Wiki <https://github.com/EllisLab/CodeIgniter/wiki/>`_
--  `Community IRC <http://ellislab.com/codeigniter/irc>`_
+*****
+Tests
+*****
 
-***************
-Acknowledgement
-***************
+Tests are attached in a separate folder `test_wishlist`, to run tests just point your browser to the http://your-server:yourport/test_wishlist
 
-The EllisLab team and The Reactor Engineers would like to thank all the
-contributors to the CodeIgniter project and you, the CodeIgniter user.
+*******************
+Further Information
+*******************
+
+In the `doc` directory you can find a list of API FUNCTIONS in details.
