@@ -9,6 +9,11 @@ class Role_model extends CI_Model {
 		$this->load->database ();
 	}
 	
+	/**
+	 * Get role from DB by its name
+	 * 
+	 * @param String $roleName
+	 */
 	public function getRoleByName($roleName) {
 		if (empty ( $roleName )) {
 			return FALSE;
@@ -18,6 +23,11 @@ class Role_model extends CI_Model {
 		return $query->row_array ();
 	}
 	
+	/**
+	 * Get Admin role ID from DB
+	 * 
+	 * @return Integer ID of Admin's Role
+	 */
 	public function getAdminRoleId() {
 		$adminRole = $this->getRoleByName ( 'admin' );
 		return $adminRole ['idRole'];

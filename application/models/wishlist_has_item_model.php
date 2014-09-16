@@ -8,7 +8,15 @@ class Wishlist_has_item_model extends CI_Model {
 		parent::__construct ();
 		$this->load->database ();
 	}
-	
+
+	/**
+	 * Adds an item to a wishlist
+	 * 
+	 * @param Integer $wishlist_id to be modified
+	 * @param Integer $item_id to be added
+	 * 
+	 * @return Integer number of affected rows
+	 */
 	public function addItemToWishlist($wishlist_id, $item_id) {
 		if (empty ( $wishlist_id ) || empty ( $item_id )) {
 			return null;
@@ -21,6 +29,14 @@ class Wishlist_has_item_model extends CI_Model {
 		return $this->db->affected_rows ();
 	}
 	
+	/**
+	 * Deleted an item from a wishlist
+	 * 
+	 * @param Integer $wishlist_id to be modified
+	 * @param Integer $item_id to be deleted 
+	 * 
+	 * @return Integer number of affected rows
+	 */
 	public function deleteItemFromWishlist($wishlist_id, $item_id) {
 		if (empty ( $wishlist_id ) || empty ( $item_id )) {
 			return null;
