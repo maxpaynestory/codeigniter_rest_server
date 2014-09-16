@@ -14,7 +14,7 @@ Installation
 Format
 *******
 
-JSON is the default format for API responses, however, you can change this by setting the `Accept` header in the http request to be xml or plain text, or you can even change the default format by changing the following line in config/rest.php:
+JSON is the default format for API responses, however, you can change this by setting the **Accept** header in the http request to be xml or plain text, or you can even change the default format by changing the following line in config/rest.php:
 
 
 .. sourcecode:: php
