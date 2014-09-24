@@ -16,18 +16,10 @@ class v2 extends v1 {
 	 * Handle HTTP GET on the resource `api/v2/items` to retrieve a list of available items.
 	 */
 	function items_get() {
-		//Get request headers
-		$headers = $this->getRequestHeaders ();
-		//Check if language is provided
-		$headerLang=(array_key_exists("Accept-Language", $headers))?$headers ['Accept-Language']:null;
-		//Get the language code that the client accepts
-		$langCode = substr ( $headerLang, 0, 2 );
-		//Get the language from DB
-		$lang = $this->lang_model->getLangByCode ( $langCode );
-		//If language is unsupported get defaul language
-		if(!isset($lang['id'])){
-			$lang = $this->lang_model->getDefaultLang ();
-		}
+		//Load required models for this operation
+		$this->load->model ( 'item_model' );
+		//Get requested language
+		$lang = $this->getRequestsLanguage ();
 		//Get items in the requested language 
 		$items = $this->item_model->getItems ( $lang );
 		//Output response		
@@ -43,30 +35,20 @@ class v2 extends v1 {
 	 * by setting the request variable `list` .
 	 */
 	function wishlist_get() {
+		//Load required models for this operation
+		$this->load->model ( 'wishlist_model' );
 		//Get alias ID
 		$aliasId = $this->get ( 'list' );
 		//Return 404 if no alias ID is provided
 		if (empty ( $aliasId )) {
 			$this->response ( array ('error' => 'No wishlist was specified!' ), 404 );
 		}
-		//Get request headers
-		$headers = $this->getRequestHeaders ();
-		//Get access token
-		$token = $headers ['X-API-KEY'];
 		//Get the user who issued this request
-		$user = $this->user_model->getUserByToken ( $token );
+		$user = $this->getUserFromHeader ();
 		//Get the specified user's wish list
 		$wishlist = $this->wishlist_model->getWishList ( $user ['idUser'], $aliasId );
-		//Check if languaage is provided
-		$headerLang=(array_key_exists("Accept-Language", $headers))?$headers ['Accept-Language']:null;
-		//Get the language code that the client accepts
-		$langCode = substr ( $headerLang, 0, 2 );
-		//Get the language from DB
-		$lang = $this->lang_model->getLangByCode ( $langCode );
-		//If language is unsupported get defaul language
-		if(!isset($lang['id'])){
-			$lang = $this->lang_model->getDefaultLang ();
-		}
+		//Get requested language
+		$lang = $this->getRequestsLanguage ();
 		//Get items in the selected wishlist
 		$items = $this->wishlist_model->getWishlistItems ( $wishlist ['id'], $lang );
 		//Calculate total price of books
@@ -80,6 +62,27 @@ class v2 extends v1 {
 			$this->response ( array ('error' => 'Couldn\'t find specified wishlist!' ), 404 );
 		}
 	
+	}
+	
+	/**
+	 * Try to fetch language from request's headers
+	 * 
+	 * @return Language if language is provided and default language otherwise.
+	 */
+	public function getRequestsLanguage() {
+		//Load Lang_model
+		$this->load->model ( 'lang_model' );
+		//Check if languaage is provided in the headers
+		$headerLang = (array_key_exists ( "Accept-Language", $this->headers )) ? $this->headers ['Accept-Language'] : null;
+		//Get the language code that the client accepts
+		$langCode = substr ( $headerLang, 0, 2 );
+		//Get the language from DB
+		$lang = $this->lang_model->getLangByCode ( $langCode );
+		//If language is unsupported get defaul language
+		if (! isset ( $lang ['id'] )) {
+			$lang = $this->lang_model->getDefaultLang ();
+		}
+		return $lang;
 	}
 
 }
